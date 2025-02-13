@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+
+{% block title %}School CRM - Departments List{% endblock %}
+
+{% block content %}
+<main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 p-8">
+    <div class="mb-8 flex justify-between items-center">
+        <h1 class="text-2xl font-bold">Departments</h1>
+        <div class="flex items-center space-x-4">
+            <div class="relative">
+                <input type="search" placeholder="Search departments..." class="pl-10 pr-4 py-2 border rounded-lg">
+                <i class="bi bi-search absolute left-3 top-3 text-gray-400"></i>
+            </div>
+            <a href="{% url 'departments:add' %}" class="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg">
+                <i class="bi bi-plus"></i>
+                <span>Add Department</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="bg-white p-4 rounded-lg shadow-sm mb-6">
+        <div class="flex flex-wrap gap-4">
+           <select name="head_of_department" class="border rounded-lg px-4 py-2">
+                <option value="">All Heads</option>
+                {% for head in heads_of_department %}
+                    <option value="{{ head.id }}" {% if request.GET.head_of_department == head.id|stringformat:"s" %}selected{% endif %}>
+                        {{ head }}
+                    </option>
+                {% endfor %}
+            </select>
+            <select name="status" class="border rounded-lg px-4 py-2">
+                <option value="">All Status</option>
+                <option value='active' {% if request.GET.status == 'active' %}selected{% endif %}>Active</option>
+                <option value="inactive" {% if request.GET.status == "inactive" %}selected{% endif %}>Inactive</option>
+            </select>
+            <button class="px-4 py-2 text-blue-600 hover:bg-blue-50 rounded-lg">
+                Clear Filters
+            </button>
+        </div>
+    </div>
+
+    <!-- Departments Table -->
+    <div class="bg-white rounded-lg shadow-sm">
+        <div class="overflow-x-auto">
+            <table class="w-full">
+                <thead class="bg-gray-50 border-b">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-sm font-medium text-gray-500">
+                            <div class="flex items-center space-x-1">
+                                <span>Department Name</span>
+                                <i class="bi bi-arrow-down-up"></i>
+                            </div>
+                        </th>
+                        <th class="px-6 py-3 text-left text-sm font-medium text-gray-500">Head</th>
+                        <th class="px-6 py-3 text-left text-sm font-medium text-gray-500">Teachers</th>
+                        <th class="px-6 py-3 text-left text-sm font-medium text-gray-500">Subjects</th>
+                        <th class="px-6 py-3 text-left text-sm font-medium text-gray-500">Status</th>
+                        <th class="px-6 py-3 text-left text-sm font-medium text-gray-500">Actions</th>
+                    </tr>
+                </thead>
+                 <tbody class="divide-y">
+                {% for department in departments %}
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4">
+                            <a href="{{ department.get_detail_url }}" class="text-blue-600 font-semibold">
+                                {{ department.name }}
+                            </a>
+                        </td>
+                        <td class="px-6 py-4 text-sm">{{ department.head_of_department }}</td>
+                        <td class="px-6 py-4 text-sm">{{ department.teacher_count }} teachers</td>
+                        <td class="px-6 py-4">
+                            <span class="text-sm">{{ department.subject_names }}</span>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="px-2 py-1 rounded-full text-sm
+                                {% if department.status == 'active' %}bg-green-100 text-green-800{% else %}bg-red-100 text-red-800{% endif %}">
+                                {{ department.get_status_display }}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 flex space-x-3">
+                            <a href="{{ department.get_detail_url }}" class="text-blue-600 hover:text-blue-800">
+                                View
+                            </a>
+                            <a href="{{ department.get_update_url }}" class="text-gray-600 hover:text-gray-800">
+                                Edit
+                            </a>
+                            <form method="post" action="{{ department.get_delete_url }}">
+                                {% csrf_token %}
+                                <button class="text-red-600 hover:text-red-800">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center py-4">No departments found.</td>
+                    </tr>
+                {% endfor %}
+        </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="px-6 py-4 border-t">
+            <div class="flex justify-between items-center">
+                <p class="text-sm text-gray-600">
+                    Showing {{ page_obj.start_index }} to {{ page_obj.end_index }} of {{ page_obj.paginator.count }} departments
+                </p>
+                <div class="flex space-x-2">
+                    {% if page_obj.has_previous %}
+                        <a href="?page=1" class="px-3 py-1 border rounded hover:bg-gray-50">First</a>
+                        <a href="?page={{ page_obj.previous_page_number }}" class="px-3 py-1 border rounded hover:bg-gray-50">Previous</a>
+                    {% endif %}
+
+                    {% for num in page_obj.paginator.page_range %}
+                        {% if page_obj.number == num %}
+                            <span class="px-3 py-1 border rounded bg-blue-600 text-white">{{ num }}</span>
+                        {% elif num > page_obj.number|add:-3 and num < page_obj.number|add:3 %}
+                            <a href="?page={{ num }}" class="px-3 py-1 border rounded hover:bg-gray-50">{{ num }}</a>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}" class="px-3 py-1 border rounded hover:bg-gray-50">Next</a>
+                        <a href="?page={{ page_obj.paginator.num_pages }}" class="px-3 py-1 border rounded hover:bg-gray-50">Last</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
+

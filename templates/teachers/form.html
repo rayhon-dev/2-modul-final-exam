@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+
+{% block title %}School CRM - Add Teacher{% endblock %}
+
+{% block content %}
+<main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 p-8">
+    <div class="max-w-2xl mx-auto">
+        <div class="mb-8 flex items-center justify-between">
+            <h1 class="text-2xl font-bold">Add Teacher</h1>
+            <a href="{% url 'teachers:list' %}" class="text-gray-500 hover:text-gray-700">
+                <i class="bi bi-x-lg"></i>
+            </a>
+        </div>
+
+        <form class="bg-white rounded-lg shadow-sm p-6" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="space-y-6">
+                <!-- Profile Photo -->
+                <div>
+                    <label  for="{{ form.photo.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                        {{ form.photo.label }}
+                    </label>
+
+                    <div class="flex items-center space-x-4">
+                        <div class="w-20 h-20 rounded-full bg-gray-100 flex items-center justify-center">
+                            <i class="bi bi-person text-3xl text-gray-400"></i>
+                        </div>
+                        {{ form.photo }}
+<!--                        <button type="button" class="px-4 py-2 border rounded-lg hover:bg-gray-50">-->
+<!--                            Upload Photo-->
+<!--                        </button>-->
+                    </div>
+                </div>
+
+                <!-- Personal Information -->
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label for="{{ form.first_name.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                            {{ form.first_name.label }}
+                        </label>
+                        {{ form.first_name }}
+                    </div>
+                    <div>
+                        <label for="{{ form.last_name.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                           {{ form.last_name.label }}
+                        </label>
+                        {{ form.last_name }}
+                    </div>
+                </div>
+
+                <!-- Professional Information -->
+                <div>
+                    <label for="{{ form.department.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                        {{ form.department.label }}
+                    </label>
+                    {{ form.department }}
+                </div>
+
+                <div>
+                    <label for="{{ form.subjects.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                        {{ form.subjects.label }}
+                    </label>
+                    {{ form.subjects }}
+                </div>
+
+                <div>
+                    <label for="{{ form.qualification.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                        {{ form.qualification.label }}
+                    </label>
+                    {{ form.qualification }}
+                </div>
+
+                <!-- Contact Information -->
+                <div>
+                    <label for="{{ form.email.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                        {{ form.email.label }}
+                    </label>
+                    {{ form.email }}
+                </div>
+
+                <div>
+                    <label for="{{ form.phone.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                        {{ form.phone.label }}
+                    </label>
+                    {{ form.phone }}
+                </div>
+
+                <!-- Address -->
+                <div>
+                    <label for="{{ form.address.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                        {{ form.address.label }}
+                    </label>
+                    {{ form.address }}
+                </div>
+
+                <!-- Employment Details -->
+                <div>
+                    <label for="{{ form.joined_date.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                        {{ form.joined_date.label }}
+                    </label>
+                    {{ form.joined_date }}
+                </div>
+
+                <div>
+                    <label for="{{ form.employment_type.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                        {{ form.employment_type.label }}
+                    </label>
+                    {{ form.employment_type }}
+                </div>
+
+                <div class="flex items-center justify-end space-x-4">
+                    <a href="{% url 'teachers:list' %}"
+                        class="px-4 py-2 border rounded-lg hover:bg-gray-50">
+                        Cancel
+                    </a>
+                    <button type="submit"
+                        class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                        Save Teacher
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</main>
+{% endblock %}
