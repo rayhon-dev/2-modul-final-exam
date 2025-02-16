@@ -12,8 +12,8 @@
                     <i class="bi bi-person text-3xl text-gray-400"></i>
                 </div>
                 <div>
-                    <h1 class="text-2xl font-bold">John Doe</h1>
-                    <p class="text-gray-500">Student ID: STU-001</p>
+                    <h1 class="text-2xl font-bold">{{ student.first_name }} {{ student.last_name }}</h1>
+                    <p class="text-gray-500">Student ID: STU-00{{ student.id }}</p>
                 </div>
             </div>
             <div class="flex items-center space-x-4">
@@ -36,31 +36,31 @@
                 <div class="grid grid-cols-2 gap-6">
                     <div>
                         <label class="block text-sm text-gray-500">First Name</label>
-                        <p class="text-gray-900">John</p>
+                        <p class="text-gray-900">{{ student.first_name }}</p>
                     </div>
                     <div>
                         <label class="block text-sm text-gray-500">Last Name</label>
-                        <p class="text-gray-900">Doe</p>
+                        <p class="text-gray-900">{{ student.last_name }}</p>
                     </div>
                     <div>
                         <label class="block text-sm text-gray-500">Date of Birth</label>
-                        <p class="text-gray-900">15 Jan 2005</p>
+                        <p class="text-gray-900">{{ student.dob }}</p>
                     </div>
                     <div>
                         <label class="block text-sm text-gray-500">Gender</label>
-                        <p class="text-gray-900">Male</p>
+                        <p class="text-gray-900">{{ student.get_gender_display }}</p>
                     </div>
                     <div>
                         <label class="block text-sm text-gray-500">Email</label>
-                        <p class="text-gray-900">john.doe@example.com</p>
+                        <p class="text-gray-900">{{ student.email }}</p>
                     </div>
                     <div>
                         <label class="block text-sm text-gray-500">Phone</label>
-                        <p class="text-gray-900">+1 234 567 890</p>
+                        <p class="text-gray-900">{{ student.phone }}</p>
                     </div>
                     <div class="col-span-2">
                         <label class="block text-sm text-gray-500">Address</label>
-                        <p class="text-gray-900">123 Main St, City, Country</p>
+                        <p class="text-gray-900">{{ student.address }}</p>
                     </div>
                 </div>
 
@@ -68,19 +68,19 @@
                 <div class="grid grid-cols-2 gap-6">
                     <div>
                         <label class="block text-sm text-gray-500">Parent Name</label>
-                        <p class="text-gray-900">Robert Doe</p>
+                        <p class="text-gray-900">{{ student.parent_name }}</p>
                     </div>
                     <div>
                         <label class="block text-sm text-gray-500">Relationship</label>
-                        <p class="text-gray-900">Father</p>
+                        <p class="text-gray-900">{{ student.relationship }}</p>
                     </div>
                     <div>
                         <label class="block text-sm text-gray-500">Parent Phone</label>
-                        <p class="text-gray-900">+1 234 567 891</p>
+                        <p class="text-gray-900">{{ student.parent_phone }}</p>
                     </div>
                     <div>
                         <label class="block text-sm text-gray-500">Parent Email</label>
-                        <p class="text-gray-900">robert.doe@example.com</p>
+                        <p class="text-gray-900">{{ student.parent_email }}</p>
                     </div>
                 </div>
             </div>
@@ -92,89 +92,77 @@
                     <div class="space-y-4">
                         <div>
                             <label class="block text-sm text-gray-500">Grade</label>
-                            <p class="text-gray-900">Grade 10</p>
+                            <p class="text-gray-900">{{ student.get_grade_level_display }}</p>
                         </div>
                         <div>
                             <label class="block text-sm text-gray-500">Group</label>
-                            <p class="text-gray-900">Group A</p>
+                            <p class="text-gray-900">{{ student.group }}</p>
                         </div>
                         <div>
                             <label class="block text-sm text-gray-500">Enrollment Date</label>
-                            <p class="text-gray-900">1 Sep 2023</p>
+                            <p class="text-gray-900">{{ student.enrollment_date }}</p>
                         </div>
                         <div>
                             <label class="block text-sm text-gray-500">Status</label>
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                Active
+                            <span class="px-2 py-1 rounded-full text-sm
+                                {% if student.status == 'active' %}bg-green-100 text-green-800{% else %}bg-red-100 text-red-800{% endif %}">
+                                {{ student.get_status_display }}
                             </span>
                         </div>
                     </div>
                 </div>
-
-                <div class="bg-white rounded-lg shadow-sm p-6">
-                    <h3 class="text-lg font-semibold mb-4">Performance</h3>
-                    <div class="space-y-4">
-                        <div>
-                            <label class="block text-sm text-gray-500">GPA</label>
-                            <p class="text-2xl font-bold">3.8</p>
-                        </div>
-                        <div>
-                            <label class="block text-sm text-gray-500">Attendance</label>
-                            <p class="text-2xl font-bold">95%</p>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
 
-        <!-- Tabs -->
-        <div class="mb-6">
-            <div class="border-b">
-                <nav class="flex space-x-8">
-                    <button class="px-1 py-4 text-sm font-medium text-blue-600 border-b-2 border-blue-600">
-                        Subjects
-                    </button>
-                    <button class="px-1 py-4 text-sm font-medium text-gray-500 border-b-2 border-transparent hover:border-gray-300">
-                        Attendance
-                    </button>
-                    <button class="px-1 py-4 text-sm font-medium text-gray-500 border-b-2 border-transparent hover:border-gray-300">
-                        Grades
-                    </button>
-                </nav>
-            </div>
-        </div>
+<!--        &lt;!&ndash; Tabs &ndash;&gt;-->
+<!--        <div class="mb-6">-->
+<!--            <div class="border-b">-->
+<!--                <nav class="flex space-x-8">-->
+<!--                    <button class="px-1 py-4 text-sm font-medium text-blue-600 border-b-2 border-blue-600">-->
+<!--                        Subjects-->
+<!--                    </button>-->
+<!--                    <button class="px-1 py-4 text-sm font-medium text-gray-500 border-b-2 border-transparent hover:border-gray-300">-->
+<!--                        Attendance-->
+<!--                    </button>-->
+<!--                    <button class="px-1 py-4 text-sm font-medium text-gray-500 border-b-2 border-transparent hover:border-gray-300">-->
+<!--                        Grades-->
+<!--                    </button>-->
+<!--                </nav>-->
+<!--            </div>-->
+<!--        </div>-->
 
-        <!-- Subjects List -->
-        <div class="bg-white rounded-lg shadow-sm">
-            <div class="p-6 border-b">
-                <h2 class="text-lg font-semibold">Current Subjects</h2>
-            </div>
-            <div class="p-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <div class="p-4 border rounded-lg">
-                        <div class="flex items-center justify-between mb-2">
-                            <h3 class="font-medium">Physics</h3>
-                            <span class="text-sm text-gray-500">Grade: A</span>
-                        </div>
-                        <p class="text-sm text-gray-500">Dr. Jane Smith</p>
-                    </div>
-                    <div class="p-4 border rounded-lg">
-                        <div class="flex items-center justify-between mb-2">
-                            <h3 class="font-medium">Mathematics</h3>
-                            <span class="text-sm text-gray-500">Grade: A+</span>
-                        </div>
-                        <p class="text-sm text-gray-500">Prof. Michael Brown</p>
-                    </div>
-                    <div class="p-4 border rounded-lg">
-                        <div class="flex items-center justify-between mb-2">
-                            <h3 class="font-medium">Chemistry</h3>
-                            <span class="text-sm text-gray-500">Grade: B+</span>
-                        </div>
-                        <p class="text-sm text-gray-500">Dr. John Doe</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+<!--        &lt;!&ndash; Subjects List &ndash;&gt;-->
+<!--        <div class="bg-white rounded-lg shadow-sm">-->
+<!--            <div class="p-6 border-b">-->
+<!--                <h2 class="text-lg font-semibold">Current Subjects</h2>-->
+<!--            </div>-->
+<!--            <div class="p-6">-->
+<!--                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">-->
+<!--                    {% for subject in subjects %}-->
+<!--                        <div class="p-4 border rounded-lg">-->
+<!--                            <div class="flex items-center justify-between mb-2">-->
+<!--                                <h3 class="font-medium">{{ subject.name }}</h3>-->
+<!--                            </div>-->
+<!--                            <p class="text-sm text-gray-500">{{ subject.}}</p>-->
+<!--                        </div>-->
+<!--                    {% endfor %}-->
+<!--                    <div class="p-4 border rounded-lg">-->
+<!--                        <div class="flex items-center justify-between mb-2">-->
+<!--                            <h3 class="font-medium">Mathematics</h3>-->
+<!--                            <span class="text-sm text-gray-500">Grade: A+</span>-->
+<!--                        </div>-->
+<!--                        <p class="text-sm text-gray-500">Prof. Michael Brown</p>-->
+<!--                    </div>-->
+<!--                    <div class="p-4 border rounded-lg">-->
+<!--                        <div class="flex items-center justify-between mb-2">-->
+<!--                            <h3 class="font-medium">Chemistry</h3>-->
+<!--                            <span class="text-sm text-gray-500">Grade: B+</span>-->
+<!--                        </div>-->
+<!--                        <p class="text-sm text-gray-500">Dr. John Doe</p>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
     </div>
 </main>
 {% endblock %}

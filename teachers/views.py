@@ -6,9 +6,11 @@ from django.views.generic import ListView, CreateView, DetailView, UpdateView, D
 from django.urls import reverse_lazy
 from departments.models import Department
 from subjects.models import Subject
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-class TeacherListView(ListView):
+
+class TeacherListView(LoginRequiredMixin, ListView):
     model = Teacher
     template_name = 'teachers/list.html'
     context_object_name = 'teachers'
@@ -73,7 +75,7 @@ class TeacherDetailView(DetailView):
 class TeacherUpdateView(UpdateView):
     model = Teacher
     template_name = 'teachers/form.html'
-    fields = ['photo', 'first_name', 'last_name', 'department', 'subjects', 'qualification', 'email', 'phone', 'address', 'employment_type' ]
+    form_class = TeacherForm
     success_url = reverse_lazy('teachers:list')
 
 

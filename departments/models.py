@@ -5,6 +5,7 @@ from django.urls import reverse
 
 
 
+
 class Department(BaseModel):
     STATUS_CHOICES = [
         ('active', 'Active'),
@@ -20,12 +21,16 @@ class Department(BaseModel):
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='inactive')
     slug = models.SlugField(unique=True)
 
-    def __str__(self):
-        return self.name
+
+
 
     @property
     def teacher_count(self):
         return self.teachers.count()
+
+    @property
+    def subject_count(self):
+        return self.subjects.count()
 
 
     @property
@@ -46,7 +51,7 @@ class Department(BaseModel):
 
     def get_detail_url(self):
         return reverse(
-            'teachers:detail',
+            'departments:detail',
             kwargs={
                 'year': self.created_at.year,
                 'month': self.created_at.month,
@@ -59,3 +64,6 @@ class Department(BaseModel):
 
     def get_delete_url(self):
         return reverse('departments:delete', args=[self.pk])
+
+    def __str__(self):
+        return self.name

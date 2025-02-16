@@ -8,6 +8,8 @@ class DepartmentForm(forms.ModelForm):
     class Meta:
         model = Department
         fields = ['name', 'head_of_department', 'desc', 'location', 'email', 'phone', 'status']
+
+
         widgets = {
             'name': forms.TextInput(attrs={
                 'placeholder': 'Add department name',
@@ -32,6 +34,10 @@ class DepartmentForm(forms.ModelForm):
             'phone': forms.TextInput(attrs={
                 'placeholder': 'Enter contact phone',
                 'class': 'w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
+            }),
+            'subjects': forms.CheckboxSelectMultiple(attrs={
+                'class': 'rounded text-blue-600',
+                'required': False
             }),
             'status': forms.Select(choices=Department.STATUS_CHOICES, attrs={
                 'class': 'w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500',

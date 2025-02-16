@@ -23,10 +23,8 @@
         <div class="flex flex-wrap gap-4">
            <select name="head_of_department" class="border rounded-lg px-4 py-2">
                 <option value="">All Heads</option>
-                {% for head in heads_of_department %}
-                    <option value="{{ head.id }}" {% if request.GET.head_of_department == head.id|stringformat:"s" %}selected{% endif %}>
-                        {{ head }}
-                    </option>
+                {% for teacher in heads_of_department %}
+                    <option value="{{ teacher.id }}" {% if request.GET.head_of_department == teacher.id|stringformat:"s" %}selected{% endif %}>{{ teacher.get_full_name }}</option>
                 {% endfor %}
             </select>
             <select name="status" class="border rounded-lg px-4 py-2">
@@ -78,17 +76,18 @@
                                 {{ department.get_status_display }}
                             </span>
                         </td>
-                        <td class="px-6 py-4 flex space-x-3">
-                            <a href="{{ department.get_detail_url }}" class="text-blue-600 hover:text-blue-800">
-                                View
-                            </a>
-                            <a href="{{ department.get_update_url }}" class="text-gray-600 hover:text-gray-800">
-                                Edit
-                            </a>
-                            <form method="post" action="{{ department.get_delete_url }}">
-                                {% csrf_token %}
-                                <button class="text-red-600 hover:text-red-800">Delete</button>
-                            </form>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center space-x-3">
+                                <a href="{{ department.get_detail_url }}" class="text-blue-600 hover:text-blue-800">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                <a href="{{ department.get_update_url }}" class="text-gray-600 hover:text-gray-800">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <button class="text-red-600 hover:text-red-800">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
                         </td>
                     </tr>
                 {% empty %}

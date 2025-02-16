@@ -12,8 +12,8 @@
                     <i class="bi bi-person text-3xl text-gray-400"></i>
                 </div>
                 <div>
-                    <h1 class="text-2xl font-bold">Dr. Jane Smith</h1>
-                    <p class="text-gray-500">Teacher ID: TCH-001</p>
+                    <h1 class="text-2xl font-bold">{{ teacher.first_name }} {{ teacher.last_name }}</h1>
+                    <p class="text-gray-500">Teacher ID: TCH-00{{ teacher.id }}</p>
                 </div>
             </div>
             <div class="flex items-center space-x-4">
@@ -36,23 +36,23 @@
                 <div class="grid grid-cols-2 gap-6">
                     <div>
                         <label class="block text-sm text-gray-500">First Name</label>
-                        <p class="text-gray-900">Jane</p>
+                        <p class="text-gray-900">{{ teacher.first_name }}</p>
                     </div>
                     <div>
                         <label class="block text-sm text-gray-500">Last Name</label>
-                        <p class="text-gray-900">Smith</p>
+                        <p class="text-gray-900">{{ teacher.last_name }}</p>
                     </div>
                     <div>
                         <label class="block text-sm text-gray-500">Email</label>
-                        <p class="text-gray-900">jane.smith@school.com</p>
+                        <p class="text-gray-900">{{ teacher.email }}</p>
                     </div>
                     <div>
                         <label class="block text-sm text-gray-500">Phone</label>
-                        <p class="text-gray-900">+1 234 567 890</p>
+                        <p class="text-gray-900">{{ teacher.phone }}</p>
                     </div>
                     <div class="col-span-2">
                         <label class="block text-sm text-gray-500">Address</label>
-                        <p class="text-gray-900">456 Oak St, City, Country</p>
+                        <p class="text-gray-900">{{ teacher.address }}</p>
                     </div>
                 </div>
 
@@ -60,123 +60,94 @@
                 <div class="grid grid-cols-2 gap-6">
                     <div>
                         <label class="block text-sm text-gray-500">Department</label>
-                        <p class="text-gray-900">Science Department</p>
+                        <p class="text-gray-900">{{ teacher.department }} Department</p>
                     </div>
                     <div>
                         <label class="block text-sm text-gray-500">Position</label>
-                        <p class="text-gray-900">Physics Professor</p>
+                        <p class="text-gray-900">{{ teacher.position }}</p>
                     </div>
                     <div>
                         <label class="block text-sm text-gray-500">Join Date</label>
-                        <p class="text-gray-900">1 Sep 2020</p>
+                        <p class="text-gray-900">{{ teacher.joined_date }}</p>
                     </div>
                     <div>
                         <label class="block text-sm text-gray-500">Employment Type</label>
-                        <p class="text-gray-900">Full Time</p>
+                        <p class="text-gray-900">{{ teacher.get_employment_type_display }}</p>
                     </div>
                     <div class="col-span-2">
                         <label class="block text-sm text-gray-500">Qualification</label>
-                        <p class="text-gray-900">Ph.D. in Physics</p>
+                        <p class="text-gray-900">{{ teacher.qualification }}</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Stats -->
-            <div class="space-y-6">
-                <div class="bg-white rounded-lg shadow-sm p-6">
-                    <h3 class="text-lg font-semibold mb-4">Teaching Stats</h3>
-                    <div class="space-y-4">
-                        <div>
-                            <label class="block text-sm text-gray-500">Total Classes</label>
-                            <p class="text-2xl font-bold">6</p>
-                        </div>
-                        <div>
-                            <label class="block text-sm text-gray-500">Total Students</label>
-                            <p class="text-2xl font-bold">180</p>
-                        </div>
-                        <div>
-                            <label class="block text-sm text-gray-500">Average Rating</label>
-                            <p class="text-2xl font-bold">4.8/5.0</p>
-                        </div>
-                    </div>
-                </div>
+<!--            &lt;!&ndash; Stats &ndash;&gt;-->
+<!--            <div class="space-y-6">-->
+<!--                <div class="bg-white rounded-lg shadow-sm p-6">-->
+<!--                    <h3 class="text-lg font-semibold mb-4">Teaching Stats</h3>-->
+<!--                    <div class="space-y-4">-->
+<!--                        <div>-->
+<!--                            <label class="block text-sm text-gray-500">Total Classes</label>-->
+<!--                            <p class="text-2xl font-bold">{{ teacher.group_count }}</p>-->
+<!--                        </div>-->
+<!--                        <div>-->
+<!--                            <label class="block text-sm text-gray-500">Total Students</label>-->
+<!--                            <p class="text-2xl font-bold">{{ teacher.student_count }}</p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
 
-                <div class="bg-white rounded-lg shadow-sm p-6">
-                    <h3 class="text-lg font-semibold mb-4">Subjects</h3>
-                    <div class="space-y-2">
-                        <div class="flex items-center space-x-2">
-                            <i class="bi bi-check-circle text-green-600"></i>
-                            <span>Physics 101</span>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <i class="bi bi-check-circle text-green-600"></i>
-                            <span>Advanced Physics</span>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <i class="bi bi-check-circle text-green-600"></i>
-                            <span>Quantum Mechanics</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Tabs -->
-        <div class="mb-6">
-            <div class="border-b">
-                <nav class="flex space-x-8">
-                    <button class="px-1 py-4 text-sm font-medium text-blue-600 border-b-2 border-blue-600">
-                        Schedule
-                    </button>
-                    <button class="px-1 py-4 text-sm font-medium text-gray-500 border-b-2 border-transparent hover:border-gray-300">
-                        Students
-                    </button>
-                    <button class="px-1 py-4 text-sm font-medium text-gray-500 border-b-2 border-transparent hover:border-gray-300">
-                        Performance
-                    </button>
-                </nav>
-            </div>
-        </div>
-
-        <!-- Schedule -->
-        <div class="bg-white rounded-lg shadow-sm">
-            <div class="p-6 border-b">
-                <h2 class="text-lg font-semibold">Weekly Schedule</h2>
-            </div>
-            <div class="p-6">
-                <div class="space-y-4">
-                    <div class="flex items-center p-4 border rounded-lg">
-                        <div class="w-16 text-center">
-                            <p class="font-medium">MON</p>
-                            <p class="text-sm text-gray-500">9:00</p>
-                        </div>
-                        <div class="ml-4">
-                            <h3 class="font-medium">Physics 101</h3>
-                            <p class="text-sm text-gray-500">Group A - Room 201</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center p-4 border rounded-lg">
-                        <div class="w-16 text-center">
-                            <p class="font-medium">WED</p>
-                            <p class="text-sm text-gray-500">11:00</p>
-                        </div>
-                        <div class="ml-4">
-                            <h3 class="font-medium">Advanced Physics</h3>
-                            <p class="text-sm text-gray-500">Group B - Room 305</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center p-4 border rounded-lg">
-                        <div class="w-16 text-center">
-                            <p class="font-medium">FRI</p>
-                            <p class="text-sm text-gray-500">14:00</p>
-                        </div>
-                        <div class="ml-4">
-                            <h3 class="font-medium">Quantum Mechanics</h3>
-                            <p class="text-sm text-gray-500">Group C - Lab 102</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<!--                <div class="bg-white rounded-lg shadow-sm p-6">-->
+<!--                    <h3 class="text-lg font-semibold mb-4">Subjects</h3>-->
+<!--                    <div class="space-y-2">-->
+<!--                        {% for subject in subjects %}-->
+<!--                            <div class="flex items-center space-x-2">-->
+<!--                                <i class="bi bi-check-circle text-green-600"></i>-->
+<!--                                <span>{{ subject.name }}</span>-->
+<!--                            </div>-->
+<!--                        {% endfor %}-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--            <br>-->
+<!--        &lt;!&ndash; Tabs &ndash;&gt;-->
+<!--        <div class="mb-6">-->
+<!--            <div class="border-b">-->
+<!--                <nav class="flex space-x-8">-->
+<!--                    <button class="px-1 py-4 text-sm font-medium text-blue-600 border-b-2 border-blue-600">-->
+<!--                        Schedule-->
+<!--                    </button>-->
+<!--                    <button class="px-1 py-4 text-sm font-medium text-gray-500 border-b-2 border-transparent hover:border-gray-300">-->
+<!--                        Students-->
+<!--                    </button>-->
+<!--                    <button class="px-1 py-4 text-sm font-medium text-gray-500 border-b-2 border-transparent hover:border-gray-300">-->
+<!--                        Performance-->
+<!--                    </button>-->
+<!--                </nav>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--            <br>-->
+<!--        &lt;!&ndash; Schedule &ndash;&gt;-->
+<!--        <div class="bg-white rounded-lg shadow-sm">-->
+<!--            <div class="p-6 border-b">-->
+<!--                <h2 class="text-lg font-semibold">Weekly Schedule</h2>-->
+<!--            </div>-->
+<!--            <div class="p-6">-->
+<!--                {% for teacher in teachers %}-->
+<!--                    <div class="space-y-4">-->
+<!--                        <div class="flex items-center p-4 border rounded-lg">-->
+<!--                            <div class="w-16 text-center">-->
+<!--                                <p class="font-medium">{{ teacher.schedule }}</p>-->
+<!--                            </div>-->
+<!--                            <div class="ml-4">-->
+<!--                                <h3 class="font-medium">{{ teacher.subjects }}</h3>-->
+<!--                                <p class="text-sm text-gray-500">{{ teacher.group.name }}</p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                {% endfor %}-->
+<!--            </div>-->
         </div>
     </div>
 </main>

@@ -75,18 +75,20 @@
                                 </div>
                                 <div>
                                     <p class="font-medium">{{ subject.name }}</p>
-                                    <p class="text-sm text-gray-500">{{ subject.levels }}</p>
+                                    <p class="text-sm text-gray-500">{{ subject.get_levels_display }}</p>
                                 </div>
                             </div>
                         </td>
                         <td class="px-6 py-4 text-sm">{{ subject.department }}</td>
                         <td class="px-6 py-4 text-sm">{{ subject.teacher_count }} teachers</td>
-                        <td class="px-6 py-4 text-sm">{{ subject.student_count }}students</td>
+                        <td class="px-6 py-4 text-sm">{{ subject.student_count }} students</td>
                         <td class="px-6 py-4">
-                            <span class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-sm">
+                            <span class="px-2 py-1 rounded-full text-sm
+                                {% if subject.status == 'active' %}bg-green-100 text-green-800{% else %}bg-red-100 text-red-800{% endif %}">
                                 {{ subject.get_status_display }}
                             </span>
                         </td>
+
                         <td class="px-6 py-4">
                             <div class="flex items-center space-x-3">
                                 <a href="{{ subject.get_detail_url }}" class="text-blue-600 hover:text-blue-800">

@@ -11,7 +11,7 @@
                 <input type="search" placeholder="Search students..." class="pl-10 pr-4 py-2 border rounded-lg">
                 <i class="bi bi-search absolute left-3 top-3 text-gray-400"></i>
             </div>
-            <a href="form.html" class="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg">
+            <a href="{% url 'students:add' %}" class="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg">
                 <i class="bi bi-plus"></i>
                 <span>Add Student</span>
             </a>
@@ -21,22 +21,24 @@
     <!-- Filters -->
     <div class="bg-white p-4 rounded-lg shadow-sm mb-6">
         <div class="flex flex-wrap gap-4">
-            <select class="border rounded-lg px-4 py-2">
+            <select  name="{{ group }}" class="border rounded-lg px-4 py-2">
                 <option>All Groups</option>
-                <option>Group A</option>
-                <option>Group B</option>
-                <option>Group C</option>
+                {% for group in groups %}
+                    <option value="{{ group.id }}" {% if request.GET.group == group.id|stringformat:"s" %}selected{% endif %}>
+                        {{ group }}
+                    </option>
+                {% endfor %}
             </select>
             <select class="border rounded-lg px-4 py-2">
                 <option>All Grades</option>
-                <option>Grade 9</option>
-                <option>Grade 10</option>
-                <option>Grade 11</option>
+                <option value='grade_9' {% if request.GET.status == 'grade_9' %}selected{% endif %}>Grade 9</option>
+                <option value="grade_10" {% if request.GET.status == "grade_10" %}selected{% endif %}>Grade 10</option>
+                <option value="grade_11" {% if request.GET.status == "grade_11" %}selected{% endif %}>Grade 11</option>
             </select>
-            <select class="border rounded-lg px-4 py-2">
-                <option>Status</option>
-                <option>Active</option>
-                <option>Inactive</option>
+            <select name="status" class="border rounded-lg px-4 py-2">
+                <option value="">All Status</option>
+                <option value='active' {% if request.GET.status == 'active' %}selected{% endif %}>Active</option>
+                <option value="inactive" {% if request.GET.status == "inactive" %}selected{% endif %}>Inactive</option>
             </select>
             <button class="px-4 py-2 text-blue-600 hover:bg-blue-50 rounded-lg">
                 Clear Filters
@@ -69,30 +71,31 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y">
+                {% for student in students %}
                     <tr class="hover:bg-gray-50">
                         <td class="px-6 py-4">
                             <div class="flex items-center space-x-3">
-                                <img src="https://placekitten.com/32/32" class="rounded-full w-8 h-8">
+                                <img src="{{ student.photo.url }}" class="rounded-full w-8 h-8">
                                 <div>
-                                    <p class="font-medium">John Doe</p>
-                                    <p class="text-sm text-gray-500">john@example.com</p>
+                                    <p class="font-medium">{{ student.first_name }} {{ student.last_name }}</p>
+                                    <p class="text-sm text-gray-500">{{ student.email }}</p>
                                 </div>
                             </div>
                         </td>
-                        <td class="px-6 py-4 text-sm">STU001</td>
-                        <td class="px-6 py-4 text-sm">Group A</td>
-                        <td class="px-6 py-4 text-sm">Grade 10</td>
+                        <td class="px-6 py-4 text-sm">STU00{{ student.id }}</td>
+                        <td class="px-6 py-4 text-sm">{{ student.group }}</td>
+                        <td class="px-6 py-4 text-sm">{{ student.get_grade_level_display }}</td>
                         <td class="px-6 py-4">
                             <span class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-sm">
-                                Active
+                                {{ student.get_status_display }}
                             </span>
                         </td>
                         <td class="px-6 py-4">
                             <div class="flex items-center space-x-3">
-                                <a href="detail.html" class="text-blue-600 hover:text-blue-800">
+                                <a href="{{ student.get_detail_url }}" class="text-blue-600 hover:text-blue-800">
                                     <i class="bi bi-eye"></i>
                                 </a>
-                                <a href="form.html" class="text-gray-600 hover:text-gray-800">
+                                <a href="{{ student.get_update_url }}" class="text-gray-600 hover:text-gray-800">
                                     <i class="bi bi-pencil"></i>
                                 </a>
                                 <button class="text-red-600 hover:text-red-800">
@@ -102,6 +105,11 @@
                         </td>
                     </tr>
                     <!-- More student rows... -->
+                {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center py-4">No students found.</td>
+                    </tr>
+                {% endfor %}
                 </tbody>
             </table>
         </div>
@@ -109,13 +117,27 @@
         <!-- Pagination -->
         <div class="px-6 py-4 border-t">
             <div class="flex justify-between items-center">
-                <p class="text-sm text-gray-600">Showing 1 to 10 of 100 students</p>
+                <p class="text-sm text-gray-600">
+                    Showing {{ page_obj.start_index }} to {{ page_obj.end_index }} of {{ page_obj.paginator.count }} departments
+                </p>
                 <div class="flex space-x-2">
-                    <button class="px-3 py-1 border rounded hover:bg-gray-50">Previous</button>
-                    <button class="px-3 py-1 border rounded bg-blue-600 text-white">1</button>
-                    <button class="px-3 py-1 border rounded hover:bg-gray-50">2</button>
-                    <button class="px-3 py-1 border rounded hover:bg-gray-50">3</button>
-                    <button class="px-3 py-1 border rounded hover:bg-gray-50">Next</button>
+                    {% if page_obj.has_previous %}
+                        <a href="?page=1" class="px-3 py-1 border rounded hover:bg-gray-50">First</a>
+                        <a href="?page={{ page_obj.previous_page_number }}" class="px-3 py-1 border rounded hover:bg-gray-50">Previous</a>
+                    {% endif %}
+
+                    {% for num in page_obj.paginator.page_range %}
+                        {% if page_obj.number == num %}
+                            <span class="px-3 py-1 border rounded bg-blue-600 text-white">{{ num }}</span>
+                        {% elif num > page_obj.number|add:-3 and num < page_obj.number|add:3 %}
+                            <a href="?page={{ num }}" class="px-3 py-1 border rounded hover:bg-gray-50">{{ num }}</a>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}" class="px-3 py-1 border rounded hover:bg-gray-50">Next</a>
+                        <a href="?page={{ page_obj.paginator.num_pages }}" class="px-3 py-1 border rounded hover:bg-gray-50">Last</a>
+                    {% endif %}
                 </div>
             </div>
         </div>

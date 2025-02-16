@@ -35,21 +35,22 @@ class Subject(BaseModel):
     desc = models.TextField()
     credit_hours = models.PositiveIntegerField()
     grade_level = models.CharField(max_length=100, choices=GRADE_LEVEL, default='grade_9')
-    prerequisites = models.CharField(max_length=100)
+    prerequisites = models.CharField(max_length=100, choices=PREREQUISITES_CHOICES)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='inactive')
     levels = models.CharField(max_length=100, choices=LEVELS_CHOICES, default='beginner')
     slug = models.SlugField(unique=True)
+
 
     def __str__(self):
         return self.name
 
     @property
-    def teacher_count(self):
-        return self.teachers.count()
-
-    @property
     def student_count(self):
         return self.students.count()
+
+    @property
+    def group_count(self):
+        return self.groups.count()
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -73,10 +74,10 @@ class Subject(BaseModel):
                 'slug': self.slug
             })
     def get_update_url(self):
-        return reverse('departments:update', args=[self.pk])
+        return reverse('subjects:update', args=[self.pk])
 
     def get_delete_url(self):
-        return reverse('departments:delete', args=[self.pk])
+        return reverse('subjects:delete', args=[self.pk])
 
 
 

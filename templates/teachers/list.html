@@ -79,7 +79,7 @@
                                     </div>
                                 </div>
                             </td>
-                            <td class="px-6 py-4 text-sm">TCH{{ teacher.id }}</td>
+                            <td class="px-6 py-4 text-sm">TCH-{{ teacher.id }}</td>
                             <td class="px-6 py-4 text-sm">{{ teacher.department }}</td>
                             <td class="px-6 py-4 text-sm">{{ teacher.subject_names }}</td>
                             <td class="px-6 py-4">
@@ -90,7 +90,7 @@
                             </td>
                             <td class="px-6 py-4">
                                 <div class="flex items-center space-x-3">
-                                    <a href="{{ teacher.get_detail_url}}" class="text-blue-600 hover:text-blue-800">
+                                    <a href="{{ teacher.get_detail_url }}" class="text-blue-600 hover:text-blue-800">
                                         <i class="bi bi-eye"></i>
                                     </a>
                                     <a href="{{ teacher.get_update_url }}" class="text-gray-600 hover:text-gray-800">
@@ -103,7 +103,9 @@
                             </td>
                         </tr>
                     {% empty %}
-                        <h2>No teachers yet</h2>
+                        <tr>
+                            <td colspan="5" class="text-center py-4">No teachers found.</td>
+                        </tr>
                     {% endfor %}
                 </tbody>
             </table>

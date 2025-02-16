@@ -7,28 +7,46 @@ from .forms import DepartmentForm
 from subjects.models import Subject
 from groups.models import Group
 from students.models import Student
+from django.contrib.auth.mixins import LoginRequiredMixin
+from json import dumps
+from django.db.models import Count
+from django.db.models.functions import ExtractMonth
 
 
 
-def home(request):
-    total_groups = Group.objects.count()
-    total_students = Student.objects.count()
-    total_subjects = Subject.objects.count()
-    total_teachers = Teacher.objects.count()
-    subject_names = [subject.name for subject in Subject.objects.all()]
-    subject_teachers_counts = [subject.teachers.count() for subject in Subject.objects.all()]
+class DashboardView(LoginRequiredMixin, ListView):
+    model = Student
+    template_name = 'dashboard.html'
+    context_object_name = 'students'
 
-    ctx = {
-        'total_groups': total_groups,
-        'total_students': total_students,
-        'total_subjects': total_subjects,
-        'total_teachers': total_teachers,
-        'subject_names': subject_names,
-        'subject_teachers_counts': subject_teachers_counts,
-    }
-    return render(request, 'dashboard.html', ctx)
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx['teachers'] = Teacher.objects.all()
+        ctx['groups'] = Group.objects.all()
+        ctx['subjects'] = Subject.objects.all()
+        ctx['groups_count'] = Group.objects.filter(status='ac').count()
+        ctx['subject_names'] = [subject.name for subject in Subject.objects.all()]
+        ctx['subject_teachers_counts'] = [subject.teachers.count() for subject in Subject.objects.all()]
+        ctx['student_count'] = Student.objects.filter(status='ac').count()
 
-class DepartmentListView(ListView):
+        enrollments = (
+            Student.objects.filter(status='ac')
+            .annotate(month=ExtractMonth('created_at'))
+            .values('month')
+            .annotate(count=Count('id'))
+            .order_by('month')
+        )
+
+        enrollment_data = {i: 0 for i in range(1, 13)}
+        for enrollment in enrollments:
+            enrollment_data[enrollment['month']] = enrollment['count']
+
+        ctx['enrollment_counts'] = dumps(list(enrollment_data.values()))
+
+        return ctx
+
+
+class DepartmentListView(LoginRequiredMixin,ListView):
     model = Department
     template_name = 'departments/list.html'
     context_object_name = 'departments'
@@ -38,13 +56,14 @@ class DepartmentListView(ListView):
         departments = Department.objects.all()
 
         # Fetch filter criteria from GET parameters
-        head_of_department = self.request.GET.get('head_of_department')
+        head_of_department_filter = self.request.GET.get('head_of_department')
         status = self.request.GET.get('status')
         search_query = self.request.GET.get('search')
 
         # Filter by head_of_department if provided
-        if head_of_department:
-            departments = departments.filter(head_of_department=head_of_department)
+        if head_of_department_filter:
+            departments = departments.filter(head_of_department_id=head_of_department_filter)
+
 
         # Filter by status
         if status:
@@ -70,6 +89,12 @@ class DepartmentCreateView(CreateView):
     template_name = 'departments/form.html'
     form_class = DepartmentForm
     success_url = reverse_lazy('departments:list')
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        # Ensure that active teachers are used in the form field
+        kwargs['initial'] = {'head_of_department': Teacher.objects.filter(status='active')}
+        return kwargs
 
 class DepartmentDetailView(DetailView):
     model = Department

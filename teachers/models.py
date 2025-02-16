@@ -5,6 +5,7 @@ from subjects.models import Subject
 from django.urls import reverse
 
 
+
 class Teacher(BaseModel):
     STATUS_CHOICES = [
         ('active', 'Active'),
@@ -21,7 +22,7 @@ class Teacher(BaseModel):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     department = models.ForeignKey('departments.Department', on_delete=models.SET_NULL, null=True, related_name='teachers')
-    subjects = models.ManyToManyField(Subject, related_name='teachers' , null=True)
+    subjects = models.ManyToManyField(Subject, related_name='teachers')
     qualification = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=15)
@@ -30,9 +31,18 @@ class Teacher(BaseModel):
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='active')
     slug = models.SlugField(unique=True)
     joined_date = models.DateField()
+    position = models.CharField(max_length=100)
 
-    def __str__(self):
-        return self.first_name, self.last_name
+    def get_full_name(self):
+        return f"{self.first_name} {self.last_name}"
+
+    # @property
+    # def group_count(self):
+    #     return self.groups.count()
+
+    # @property
+    # def student_count(self):
+    #     return self.students.count()
 
     @property
     def subject_names(self):
@@ -61,8 +71,10 @@ class Teacher(BaseModel):
             })
 
     def get_update_url(self):
-        return reverse('departments:update', args=[self.pk])
+        return reverse('teachers:update', args=[self.pk])
 
     def get_delete_url(self):
-        return reverse('departments:delete', args=[self.pk])
+        return reverse('teachers:delete', args=[self.pk])
 
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"

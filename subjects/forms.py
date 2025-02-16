@@ -11,7 +11,7 @@ class SubjectForm(forms.ModelForm):
     )
     class Meta:
         model = Subject
-        fields = ['name', 'department', 'desc', 'credit_hours', 'grade_level', 'prerequisites', 'levels']
+        fields = ['name', 'department', 'desc', 'credit_hours', 'grade_level', 'prerequisites', 'levels', 'status']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500', 'placeholder': 'Enter subject name'}),
             'department': forms.Select(attrs={'class': 'w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500'}),
@@ -19,7 +19,7 @@ class SubjectForm(forms.ModelForm):
             'credit_hours': forms.NumberInput(attrs={'class': 'w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500', 'placeholder': 'Enter credit hours' }),
             'grade_level': forms.Select(attrs={'type': 'email', 'class': 'w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500', 'placeholder': 'Enter contact email'}),
             'levels': forms.Select(attrs={'class':'w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500', 'placeholder': 'Enter contact phone'}),
-            # 'prerequisites': forms.SelectMultiple(attrs={'class': 'w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500'})
+            'status': forms.Select(choices=Subject.STATUS_CHOICES, attrs={'class': 'w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500'})
         }
 
 

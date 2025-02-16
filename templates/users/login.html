@@ -17,46 +17,47 @@
             </div>
 
             <!-- Login Form -->
-            <form class="space-y-6">
+            <form method="post" action="{% url 'users:login' %}" class="space-y-6">
+                {% csrf_token %}
+                <!-- Error Messages -->
+                {% if form.errors %}
+                    <div class="bg-red-50 border-l-4 border-red-400 text-red-700 p-4 rounded-md">
+                        <ul class="list-disc list-inside">
+                            {% for field, errors in form.errors.items %}
+                                {% for error in errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+
                 <!-- Email Input -->
                 <div class="space-y-2">
-                    <label for="email" class="block text-sm font-medium text-gray-700">
+                    <label for="id_username" class="block text-sm font-medium text-gray-700">
                         Email
                     </label>
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <i class="bi bi-envelope text-gray-400"></i>
                         </div>
-                        <input
-                            type="email"
-                            id="email"
-                            name="email"
-                            placeholder="name@school.com"
-                            required
-                            class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        >
+                        {{ form.username }}
                     </div>
                 </div>
 
                 <!-- Password Input -->
                 <div class="space-y-2">
-                    <label for="password" class="block text-sm font-medium text-gray-700">
+                    <label for="id_password" class="block text-sm font-medium text-gray-700">
                         Password
                     </label>
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <i class="bi bi-lock text-gray-400"></i>
                         </div>
-                        <input
-                            type="password"
-                            id="password"
-                            name="password"
-                            required
-                            class="block w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        >
-                        <button 
-                            type="button" 
-                            id="togglePassword" 
+                        {{ form.password }}
+                        <button
+                            type="button"
+                            id="togglePassword"
                             class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
                         >
                             <i class="bi bi-eye"></i>
@@ -66,13 +67,8 @@
 
                 <!-- Remember Me -->
                 <div class="flex items-center">
-                    <input
-                        type="checkbox"
-                        id="remember"
-                        name="remember"
-                        class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                    >
-                    <label for="remember" class="ml-2 block text-sm text-gray-700">
+                    {{ form.remember_me }}
+                    <label for="id_remember_me" class="ml-2 block text-sm text-gray-700">
                         Remember me
                     </label>
                 </div>
@@ -80,8 +76,7 @@
                 <!-- Submit Button -->
                 <button
                     type="submit"
-                    class="w-full flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                >
+                    class="w-full flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                     Sign in
                 </button>
             </form>
@@ -91,13 +86,13 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const togglePassword = document.querySelector('#togglePassword');
-            const password = document.querySelector('#password');
+            const password = document.querySelector('#id_password');
 
             togglePassword.addEventListener('click', function() {
                 // Toggle the type attribute
                 const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
                 password.setAttribute('type', type);
-                
+
                 // Toggle the icon
                 this.querySelector('i').classList.toggle('bi-eye');
                 this.querySelector('i').classList.toggle('bi-eye-slash');

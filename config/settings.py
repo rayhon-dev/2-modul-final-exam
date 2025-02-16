@@ -37,12 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'users',
     'departments',
     'subjects',
     'teachers',
     'students',
-    'groups'
+    'groups',
+    'users'
 ]
 
 MIDDLEWARE = [
@@ -135,5 +135,13 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',  # Standart autentifikatsiya backend
+]
 
 
+AUTH_USER_MODEL = 'users.CustomUser'
+
+LOGIN_URL = 'users:login'
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'users:logout_success'

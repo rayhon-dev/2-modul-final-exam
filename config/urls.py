@@ -18,18 +18,19 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from departments.views import home
+from departments.views import DashboardView
 
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', home, name='home'),
+    path('', DashboardView.as_view(), name='home'),
     path('departments/', include('departments.urls')),
     path('subjects/', include('subjects.urls')),
     path('teachers/', include('teachers.urls')),
     path('groups/', include('groups.urls')),
     path('students/', include('students.urls')),
+    path('users/', include('users.urls'))
 ]
 
 if settings.DEBUG:
