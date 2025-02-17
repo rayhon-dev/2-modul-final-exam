@@ -16,15 +16,19 @@
                     <p class="text-gray-500">Subject ID: SUB-00{{ subject.id }}</p>
                 </div>
             </div>
-            <div class="flex items-center space-x-4">
-                <button class="px-4 py-2 border rounded-lg hover:bg-gray-50">
+             <!-- Button Container (updated) -->
+            <div class="flex space-x-4">
+                <!-- Edit Button -->
+                <a href="{% url 'subjects:update' subject.id %}" class="px-4 py-2 border rounded-lg hover:bg-gray-50">
                     <i class="bi bi-pencil"></i>
                     <span class="ml-2">Edit</span>
-                </button>
-                <button class="px-4 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100">
+                </a>
+
+                <!-- Delete Button -->
+                <a href="{% url 'subjects:delete' subject.id %}" class="px-4 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100">
                     <i class="bi bi-trash"></i>
                     <span class="ml-2">Delete</span>
-                </button>
+                </a>
             </div>
         </div>
 
@@ -100,44 +104,6 @@
                     {% else %}
                         <p>No teachers assigned yet.</p>
                     {% endif %}
-                </div>
-            </div>
-        </div>
-
-        <!-- Tabs -->
-        <div class="mb-6">
-            <div class="border-b">
-                <nav class="flex space-x-8">
-                    <button class="px-1 py-4 text-sm font-medium text-blue-600 border-b-2 border-blue-600">
-                        Groups
-                    </button>
-                    <button class="px-1 py-4 text-sm font-medium text-gray-500 border-b-2 border-transparent hover:border-gray-300">
-                        Schedule
-                    </button>
-                    <button class="px-1 py-4 text-sm font-medium text-gray-500 border-b-2 border-transparent hover:border-gray-300">
-                        Materials
-                    </button>
-                </nav>
-            </div>
-        </div>
-
-        <!-- Groups List -->
-        <div class="bg-white rounded-lg shadow-sm">
-            <div class="p-6 border-b">
-                <h2 class="text-lg font-semibold">Current Groups</h2>
-            </div>
-
-            <div class="p-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {% for group in groups %}
-                        <div class="p-4 border rounded-lg">
-                            <div class="flex items-center justify-between mb-2">
-                                <h3 class="font-medium">{{ group.name }}</h3>
-                                <span class="text-sm text-gray-500">{{ group.count_student }} students</span>
-                            </div>
-                            <p class="text-sm text-gray-500">{{ group.schedule }}</p>
-                        </div>
-                    {% endfor %}
                 </div>
             </div>
         </div>

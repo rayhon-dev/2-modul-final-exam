@@ -27,8 +27,9 @@ class GroupListView(LoginRequiredMixin, ListView):
         search_query = self.request.GET.get('search')
 
         # Filter by head_of_department if provided
+
         if grade_level_filter:
-            groups = groups.filter(grade_level_id=grade_level_filter)
+            groups = groups.filter(grade_level=grade_level_filter)
 
         if class_teacher_filter:
             groups = groups.filter(class_teacher_id=class_teacher_filter)

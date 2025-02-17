@@ -19,24 +19,29 @@
     </div>
 
     <!-- Filters -->
-    <div class="bg-white p-4 rounded-lg shadow-sm mb-6">
-        <div class="flex flex-wrap gap-4">
-           <select name="head_of_department" class="border rounded-lg px-4 py-2">
-                <option value="">All Heads</option>
-                {% for teacher in heads_of_department %}
-                    <option value="{{ teacher.id }}" {% if request.GET.head_of_department == teacher.id|stringformat:"s" %}selected{% endif %}>{{ teacher.get_full_name }}</option>
-                {% endfor %}
-            </select>
-            <select name="status" class="border rounded-lg px-4 py-2">
-                <option value="">All Status</option>
-                <option value='active' {% if request.GET.status == 'active' %}selected{% endif %}>Active</option>
-                <option value="inactive" {% if request.GET.status == "inactive" %}selected{% endif %}>Inactive</option>
-            </select>
-            <button class="px-4 py-2 text-blue-600 hover:bg-blue-50 rounded-lg">
-                Clear Filters
-            </button>
+    <form method="get" action="{% url 'departments:list' %}">
+        <div class="bg-white p-4 rounded-lg shadow-sm mb-6">
+            <div class="flex flex-wrap gap-4">
+                <!-- Head of Department Filter -->
+                <select name="head_of_department" class="border rounded-lg px-4 py-2">
+                    <option value="">All Heads</option>
+                    {% for teacher in heads_of_department %}
+                        <option value="{{ teacher.id }}" {% if request.GET.head_of_department == teacher.id|stringformat:"s" %}selected{% endif %}>{{ teacher.get_full_name }}</option>
+                    {% endfor %}
+                </select>
+
+                <!-- Status Filter -->
+                <select name="status" class="border rounded-lg px-4 py-2">
+                    <option value="">All Status</option>
+                    <option value='active' {% if request.GET.status == 'active' %}selected{% endif %}>Active</option>
+                    <option value="inactive" {% if request.GET.status == "inactive" %}selected{% endif %}>Inactive</option>
+                </select>
+
+                <!-- Clear Filters Button -->
+                <button type="submit" class="px-4 py-2 text-blue-600 hover:bg-blue-50 rounded-lg">Apply Filters</button>
+            </div>
         </div>
-    </div>
+    </form>
 
     <!-- Departments Table -->
     <div class="bg-white rounded-lg shadow-sm">

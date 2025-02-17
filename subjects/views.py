@@ -4,7 +4,7 @@ from django.views.generic import ListView, CreateView, DetailView, UpdateView, D
 from django.urls import reverse_lazy
 from departments.models import Department
 from django.contrib.auth.mixins import LoginRequiredMixin
-
+from django.http import HttpResponseRedirect
 
 
 
@@ -29,7 +29,7 @@ class SubjectListView(LoginRequiredMixin, ListView):
             subjects = subjects.filter(department_id=department_filter)
 
         if grade_level_filter:
-            subjects = subjects.filter(grade_level_id=grade_level_filter)
+            subjects = subjects.filter(grade_level=grade_level_filter)
 
         if levels_filter:
             subjects = subjects.filter(levels_id=levels_filter)
@@ -60,7 +60,6 @@ class SubjectCreateView(CreateView):
     template_name = 'subjects/form.html'
     form_class = SubjectForm
     success_url = reverse_lazy('subjects:list')
-
 
 
 

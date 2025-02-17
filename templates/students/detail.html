@@ -8,23 +8,25 @@
         <!-- Header -->
         <div class="mb-8 flex items-center justify-between">
             <div class="flex items-center space-x-4">
-                <div class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center">
-                    <i class="bi bi-person text-3xl text-gray-400"></i>
-                </div>
+                <img src="{{ student.photo.url }}" alt="Student" class="w-16 h-16 rounded-full">
                 <div>
                     <h1 class="text-2xl font-bold">{{ student.first_name }} {{ student.last_name }}</h1>
                     <p class="text-gray-500">Student ID: STU-00{{ student.id }}</p>
                 </div>
             </div>
-            <div class="flex items-center space-x-4">
-                <button class="px-4 py-2 border rounded-lg hover:bg-gray-50">
+            <!-- Button Container (updated) -->
+            <div class="flex space-x-4">
+                <!-- Edit Button -->
+                <a href="{% url 'students:update' student.id %}" class="px-4 py-2 border rounded-lg hover:bg-gray-50">
                     <i class="bi bi-pencil"></i>
                     <span class="ml-2">Edit</span>
-                </button>
-                <button class="px-4 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100">
+                </a>
+
+                <!-- Delete Button -->
+                <a href="{% url 'students:delete' student.id %}" class="px-4 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100">
                     <i class="bi bi-trash"></i>
                     <span class="ml-2">Delete</span>
-                </button>
+                </a>
             </div>
         </div>
 
@@ -113,56 +115,6 @@
                 </div>
             </div>
         </div>
-
-<!--        &lt;!&ndash; Tabs &ndash;&gt;-->
-<!--        <div class="mb-6">-->
-<!--            <div class="border-b">-->
-<!--                <nav class="flex space-x-8">-->
-<!--                    <button class="px-1 py-4 text-sm font-medium text-blue-600 border-b-2 border-blue-600">-->
-<!--                        Subjects-->
-<!--                    </button>-->
-<!--                    <button class="px-1 py-4 text-sm font-medium text-gray-500 border-b-2 border-transparent hover:border-gray-300">-->
-<!--                        Attendance-->
-<!--                    </button>-->
-<!--                    <button class="px-1 py-4 text-sm font-medium text-gray-500 border-b-2 border-transparent hover:border-gray-300">-->
-<!--                        Grades-->
-<!--                    </button>-->
-<!--                </nav>-->
-<!--            </div>-->
-<!--        </div>-->
-
-<!--        &lt;!&ndash; Subjects List &ndash;&gt;-->
-<!--        <div class="bg-white rounded-lg shadow-sm">-->
-<!--            <div class="p-6 border-b">-->
-<!--                <h2 class="text-lg font-semibold">Current Subjects</h2>-->
-<!--            </div>-->
-<!--            <div class="p-6">-->
-<!--                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">-->
-<!--                    {% for subject in subjects %}-->
-<!--                        <div class="p-4 border rounded-lg">-->
-<!--                            <div class="flex items-center justify-between mb-2">-->
-<!--                                <h3 class="font-medium">{{ subject.name }}</h3>-->
-<!--                            </div>-->
-<!--                            <p class="text-sm text-gray-500">{{ subject.}}</p>-->
-<!--                        </div>-->
-<!--                    {% endfor %}-->
-<!--                    <div class="p-4 border rounded-lg">-->
-<!--                        <div class="flex items-center justify-between mb-2">-->
-<!--                            <h3 class="font-medium">Mathematics</h3>-->
-<!--                            <span class="text-sm text-gray-500">Grade: A+</span>-->
-<!--                        </div>-->
-<!--                        <p class="text-sm text-gray-500">Prof. Michael Brown</p>-->
-<!--                    </div>-->
-<!--                    <div class="p-4 border rounded-lg">-->
-<!--                        <div class="flex items-center justify-between mb-2">-->
-<!--                            <h3 class="font-medium">Chemistry</h3>-->
-<!--                            <span class="text-sm text-gray-500">Grade: B+</span>-->
-<!--                        </div>-->
-<!--                        <p class="text-sm text-gray-500">Dr. John Doe</p>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
     </div>
 </main>
 {% endblock %}

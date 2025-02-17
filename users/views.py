@@ -1,12 +1,13 @@
-from django.contrib.auth import login, authenticate
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, redirect
-from django.views.generic import CreateView, FormView, UpdateView
-from django.urls import reverse_lazy
-from .forms import CustomAuthenticationForm, UserProfileForm
+from django.contrib.auth import get_user_model, authenticate, login, logout
+from django.urls import reverse_lazy, reverse
 from django.views import View
+from django.views.generic import UpdateView, FormView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import render
 from .models import UserProfile
-from django.contrib.auth import logout
+from .forms import UserProfileForm, CustomAuthenticationForm
+
+User = get_user_model()
 
 
 class UserLoginView(FormView):
@@ -15,32 +16,37 @@ class UserLoginView(FormView):
     success_url = reverse_lazy('home')
 
     def form_valid(self, form):
-        email = form.cleaned_data.get('username')  # Formdan username o‘rniga email olinadi
+        email = form.cleaned_data.get('username')
         password = form.cleaned_data.get('password')
-
-        user = authenticate(self.request, username=email, password=password)  # username o‘rniga email ishlatiladi
+        user = authenticate(email=email, password=password)
         if user is not None:
             login(self.request, user)
             return super().form_valid(form)
         return self.form_invalid(form)
 
 
-class UpdateProfileView(LoginRequiredMixin, UpdateView):
+class UserLogoutView(View):
+    next_page = 'users:login'
+
+    def get(self, request):
+        logout(request)
+        return render(request, 'users/logout.html')
+
+
+class UserProfileUpdateView(LoginRequiredMixin, UpdateView):
     model = UserProfile
     form_class = UserProfileForm
     template_name = 'users/profile-update.html'
-    success_url = reverse_lazy('users:update_profile')
+    login_url = reverse_lazy('users:login')
 
     def get_object(self, queryset=None):
-        return self.request.user.profile
+        profile, created = UserProfile.objects.get_or_create(user=self.request.user)
+        return profile
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        kwargs['user'] = self.request.user
+        kwargs["user"] = self.request.user
         return kwargs
 
-
-class CustomLogoutView(View):
-    def post(self, request):
-        logout(request)
-        return render(request, 'users/logout.html')
+    def get_success_url(self):
+        return reverse('users:profile')

@@ -58,13 +58,7 @@ class TeacherCreateView(CreateView):
     form_class = TeacherForm
     success_url = reverse_lazy('teachers:list')
 
-    # def form_valid(self, form):
-    #     print(form.cleaned_data)
-    #     return HttpResponseRedirect(self.success_url)
-    #
-    # def form_invalid(self, form):
-    #     print(form.errors)
-    #     return HttpResponseRedirect(self.success_url)
+
 
 class TeacherDetailView(DetailView):
     model = Teacher

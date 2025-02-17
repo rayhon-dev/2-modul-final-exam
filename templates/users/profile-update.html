@@ -1,30 +1,54 @@
 {% extends 'base.html' %}
 
-{% block title %}School CRM - Update Profile{% endblock %}
+{% block title %} School CRM - Update Profile  {% endblock %}
 
 {% block content %}
     <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-sm">
         <div class="p-6">
             <h2 class="text-2xl font-semibold mb-6">Update Your Profile</h2>
-            <form method="post" action="{% url 'users:update_profile' %}">
+            <form method="post" enctype="multipart/form-data" class="space-y-4">
                 {% csrf_token %}
-                <div class="mb-4">
-                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                    <input type="text" id="email" value="{{ form.email.value }}" disabled
-                        class="block w-full px-3 py-2 border rounded-md bg-gray-100">
+
+                <div>
+                    <label for="{{ form.username.id_for_label }}" class="block text-sm font-medium text-gray-700">Username</label>
+                    {{ form.username }}
+                    {% if form.username.errors %}
+                        <p class="text-red-500 text-sm">{{ form.username.errors.0 }}</p>
+                    {% endif %}
                 </div>
-                <div class="mb-4">
-                    <label for="{{ form.bio.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">Bio</label>
+
+                <div>
+                    <label for="{{ form.bio.id_for_label }}" class="block text-sm font-medium text-gray-700">Bio</label>
                     {{ form.bio }}
+                    {% if form.bio.errors %}
+                        <p class="text-red-500 text-sm">{{ form.bio.errors.0 }}</p>
+                    {% endif %}
                 </div>
-                <div class="mb-4">
-                    <label for="{{ form.birth_date.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">Birth Date</label>
+
+                <div>
+                    <label for="{{ form.birth_date.id_for_label }}" class="block text-sm font-medium text-gray-700">Birth Date</label>
                     {{ form.birth_date }}
+                    {% if form.birth_date.errors %}
+                        <p class="text-red-500 text-sm">{{ form.birth_date.errors.0 }}</p>
+                    {% endif %}
                 </div>
-                <div class="mb-4">
-                    <label for="{{ form.phone.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
-                    {{ form.phone }}
+
+                <div>
+                    <label for="{{ form.new_password.id_for_label }}" class="block text-sm font-medium text-gray-700">New Password</label>
+                    {{ form.new_password }}
+                    {% if form.new_password.errors %}
+                        <p class="text-red-500 text-sm">{{ form.new_password.errors.0 }}</p>
+                    {% endif %}
                 </div>
+
+                <div>
+                    <label for="{{ form.repeat_password.id_for_label }}" class="block text-sm font-medium text-gray-700">Repeat Password</label>
+                    {{ form.repeat_password }}
+                    {% if form.repeat_password.errors %}
+                        <p class="text-red-500 text-sm">{{ form.repeat_password.errors.0 }}</p>
+                    {% endif %}
+                </div>
+
                 <div class="flex justify-end">
                     <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Update Profile</button>
                 </div>

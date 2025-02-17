@@ -4,6 +4,7 @@ from django.utils import timezone
 from .managers import CustomUserManager
 
 
+
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
     username = models.CharField(max_length=30, unique=True)
@@ -23,7 +24,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 class UserProfile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='profile')
     bio = models.TextField(max_length=500, blank=True)
-    phone = models.CharField(max_length=30, blank=True)
     birth_date = models.DateField(null=True, blank=True)
 
     def __str__(self):

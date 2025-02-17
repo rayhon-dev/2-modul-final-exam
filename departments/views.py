@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from .models import Department
 from teachers.models import Teacher
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
@@ -13,7 +12,6 @@ from django.db.models import Count
 from django.db.models.functions import ExtractMonth
 
 
-
 class DashboardView(LoginRequiredMixin, ListView):
     model = Student
     template_name = 'dashboard.html'
@@ -21,16 +19,30 @@ class DashboardView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
+
+        # Fetch all necessary data
+        total_students = Student.objects.filter(
+            status='active').count()  # Ensure this matches the status in the database
+        total_teachers = Teacher.objects.filter(status='active').count()
+        total_groups = Group.objects.filter(status='active').count()
+        total_subjects = Subject.objects.all().count()
+
+        # Fetch teachers, groups, subjects, etc.
         ctx['teachers'] = Teacher.objects.all()
         ctx['groups'] = Group.objects.all()
         ctx['subjects'] = Subject.objects.all()
-        ctx['groups_count'] = Group.objects.filter(status='ac').count()
+        ctx['total_students'] = total_students  # Ensure this value is correct
+        ctx['total_teachers'] = total_teachers
+        ctx['total_groups'] = total_groups
+        ctx['total_subjects'] = total_subjects
+
+        # Subject-related data for the chart
         ctx['subject_names'] = [subject.name for subject in Subject.objects.all()]
         ctx['subject_teachers_counts'] = [subject.teachers.count() for subject in Subject.objects.all()]
-        ctx['student_count'] = Student.objects.filter(status='ac').count()
 
+        # Student enrollment trends per month
         enrollments = (
-            Student.objects.filter(status='ac')
+            Student.objects.filter(status='active')  # Ensure the status matches here too
             .annotate(month=ExtractMonth('created_at'))
             .values('month')
             .annotate(count=Count('id'))

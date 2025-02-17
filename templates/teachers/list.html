@@ -18,19 +18,20 @@
         </div>
     </div>
 
+
     <!-- Filters -->
     <div class="bg-white p-4 rounded-lg shadow-sm mb-6">
-        <div  class="flex flex-wrap gap-4">
-            <select  name="department" class="border rounded-lg px-4 py-2">
-                <option>All Departments</option>
+        <form method="get" action="{% url 'teachers:list' %}" class="flex flex-wrap gap-4">
+            <select name="department" class="border rounded-lg px-4 py-2">
+                <option value="">All Departments</option>  <!-- Empty value to avoid passing "All Departments" -->
                 {% for department in departments %}
                     <option value="{{ department.id }}" {% if request.GET.department == department.id|stringformat:"s" %}selected{% endif %}>
                         {{ department }}
                     </option>
                 {% endfor %}
             </select>
-            <select  name="{{ subjects }}" class="border rounded-lg px-4 py-2">
-                <option>All Subjects</option>
+            <select name="subject" class="border rounded-lg px-4 py-2">
+                <option value="">All Subjects</option> <!-- Empty value to avoid passing "All Subjects" -->
                 {% for subject in subjects %}
                     <option value="{{ subject.id }}" {% if request.GET.subject == subject.id|stringformat:"s" %}selected{% endif %}>
                         {{ subject }}
@@ -39,13 +40,13 @@
             </select>
             <select name="status" class="border rounded-lg px-4 py-2">
                 <option value="">All Status</option>
-                <option value='active' {% if request.GET.status == 'active' %}selected{% endif %}>Active</option>
+                <option value="active" {% if request.GET.status == 'active' %}selected{% endif %}>Active</option>
                 <option value="on_leave" {% if request.GET.status == "on_leave" %}selected{% endif %}>On Leave</option>
             </select>
-            <button class="px-4 py-2 text-blue-600 hover:bg-blue-50 rounded-lg">
-                Clear Filters
+            <button type="submit" class="px-4 py-2 text-white bg-blue-600 hover:bg-blue-700 rounded-lg">
+                Apply Filters
             </button>
-        </div>
+        </form>
     </div>
 
     <!-- Teachers Table -->

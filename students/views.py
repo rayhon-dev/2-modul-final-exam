@@ -28,7 +28,7 @@ class StudentListView(LoginRequiredMixin, ListView):
             students = students.filter(group_id=group_filter)
 
         if grade_level_filter:
-            students = students.filter(grade_level_id=grade_level_filter)
+            students = students.filter(grade_level=grade_level_filter)
 
         if status_filter:
             students = students.filter(status=status_filter)

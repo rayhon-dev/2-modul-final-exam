@@ -16,16 +16,22 @@
                     <p class="text-gray-500">Department ID: DEP-00{{ department.id }}</p>
                 </div>
             </div>
-            <div class="flex items-center space-x-4">
-                <button class="px-4 py-2 border rounded-lg hover:bg-gray-50">
-                    <i class="bi bi-pencil"></i>
-                    <span class="ml-2">Edit</span>
-                </button>
-                <button class="px-4 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100">
-                    <i class="bi bi-trash"></i>
-                    <span class="ml-2">Delete</span>
-                </button>
-            </div>
+
+        <!-- Button Container (updated) -->
+        <div class="flex space-x-4">
+            <!-- Edit Button -->
+            <a href="{% url 'departments:update' department.id %}" class="px-4 py-2 border rounded-lg hover:bg-gray-50">
+                <i class="bi bi-pencil"></i>
+                <span class="ml-2">Edit</span>
+            </a>
+
+            <!-- Delete Button -->
+            <a href="{% url 'departments:delete' department.id %}" class="px-4 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100">
+                <i class="bi bi-trash"></i>
+                <span class="ml-2">Delete</span>
+            </a>
+        </div>
+
         </div>
 
         <!-- Department Info -->
@@ -73,51 +79,6 @@
                             <p class="text-2xl font-bold">{{ department.subject_count }}</p>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Tabs -->
-        <div class="mb-6">
-            <div class="border-b">
-                <nav class="flex space-x-8">
-                    <button class="px-1 py-4 text-sm font-medium text-blue-600 border-b-2 border-blue-600">
-                        Teachers
-                    </button>
-                    <button class="px-1 py-4 text-sm font-medium text-gray-500 border-b-2 border-transparent hover:border-gray-300">
-                        Subjects
-                    </button>
-                    <button class="px-1 py-4 text-sm font-medium text-gray-500 border-b-2 border-transparent hover:border-gray-300">
-                        Students
-                    </button>
-                </nav>
-            </div>
-        </div>
-
-        <!-- Teachers List -->
-        <div class="bg-white rounded-lg shadow-sm">
-            <div class="p-6 border-b">
-                <div class="flex items-center justify-between">
-                    <h2 class="text-lg font-semibold">Teachers</h2>
-                    <a href="{% url 'teachers:add' %}" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-                        <i class="bi bi-plus"></i>
-                        <span class="ml-2">Add Teacher</span>
-                    </a>
-                </div>
-            </div>
-            <div class="p-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {% for teacher in teachers %}
-                        <div class="flex items-center space-x-4 p-4 border rounded-lg">
-                            <div class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center">
-                                <i class="bi bi-person text-2xl text-gray-400"></i>
-                            </div>
-                            <div>
-                                <h3 class="font-medium">{{ teacher.first_name }} {{ teacher.last_name }}</h3>
-                                <p class="text-sm text-gray-500">{{ teacher.position }}</p>
-                            </div>
-                        </div>
-                    {% endfor %}
                 </div>
             </div>
         </div>

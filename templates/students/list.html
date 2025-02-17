@@ -19,32 +19,42 @@
     </div>
 
     <!-- Filters -->
-    <div class="bg-white p-4 rounded-lg shadow-sm mb-6">
-        <div class="flex flex-wrap gap-4">
-            <select  name="{{ group }}" class="border rounded-lg px-4 py-2">
-                <option>All Groups</option>
-                {% for group in groups %}
-                    <option value="{{ group.id }}" {% if request.GET.group == group.id|stringformat:"s" %}selected{% endif %}>
-                        {{ group }}
-                    </option>
-                {% endfor %}
-            </select>
-            <select class="border rounded-lg px-4 py-2">
-                <option>All Grades</option>
-                <option value='grade_9' {% if request.GET.status == 'grade_9' %}selected{% endif %}>Grade 9</option>
-                <option value="grade_10" {% if request.GET.status == "grade_10" %}selected{% endif %}>Grade 10</option>
-                <option value="grade_11" {% if request.GET.status == "grade_11" %}selected{% endif %}>Grade 11</option>
-            </select>
-            <select name="status" class="border rounded-lg px-4 py-2">
-                <option value="">All Status</option>
-                <option value='active' {% if request.GET.status == 'active' %}selected{% endif %}>Active</option>
-                <option value="inactive" {% if request.GET.status == "inactive" %}selected{% endif %}>Inactive</option>
-            </select>
-            <button class="px-4 py-2 text-blue-600 hover:bg-blue-50 rounded-lg">
-                Clear Filters
-            </button>
+    <form method="GET" action="{% url 'students:list' %}">
+        <div class="bg-white p-4 rounded-lg shadow-sm mb-6">
+            <div class="flex flex-wrap gap-4">
+                <!-- Group Filter -->
+                <select name="group" class="border rounded-lg px-4 py-2">
+                    <option>All Groups</option>
+                    {% for group in groups %}
+                        <option value="{{ group.id }}" {% if request.GET.group == group.id|stringformat:"s" %}selected{% endif %}>
+                            {{ group }}
+                        </option>
+                    {% endfor %}
+                </select>
+
+                <!-- Grade Level Filter -->
+                <select name="grade_level" class="border rounded-lg px-4 py-2">
+                    <option>All Grades</option>
+                    <option value="grade_9" {% if request.GET.grade_level == 'grade_9' %}selected{% endif %}>Grade 9</option>
+                    <option value="grade_10" {% if request.GET.grade_level == "grade_10" %}selected{% endif %}>Grade 10</option>
+                    <option value="grade_11" {% if request.GET.grade_level == "grade_11" %}selected{% endif %}>Grade 11</option>
+                </select>
+
+                <!-- Status Filter -->
+                <select name="status" class="border rounded-lg px-4 py-2">
+                    <option value="">All Status</option>
+                    <option value="active" {% if request.GET.status == 'active' %}selected{% endif %}>Active</option>
+                    <option value="inactive" {% if request.GET.status == "inactive" %}selected{% endif %}>Inactive</option>
+                </select>
+
+                <!-- Clear Filters Button -->
+                <button type="submit" class="px-4 py-2 text-blue-600 hover:bg-blue-50 rounded-lg">
+                    Apply Filters
+                </button>
+            </div>
         </div>
-    </div>
+    </form>
+
 
     <!-- Students Table -->
     <div class="bg-white rounded-lg shadow-sm">

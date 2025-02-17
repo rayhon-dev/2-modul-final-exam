@@ -35,7 +35,7 @@ class Subject(BaseModel):
     desc = models.TextField()
     credit_hours = models.PositiveIntegerField()
     grade_level = models.CharField(max_length=100, choices=GRADE_LEVEL, default='grade_9')
-    prerequisites = models.CharField(max_length=100, choices=PREREQUISITES_CHOICES)
+    prerequisites = models.CharField(max_length=100)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='inactive')
     levels = models.CharField(max_length=100, choices=LEVELS_CHOICES, default='beginner')
     slug = models.SlugField(unique=True)
@@ -51,6 +51,10 @@ class Subject(BaseModel):
     @property
     def group_count(self):
         return self.groups.count()
+
+    @property
+    def prerequisites_list(self):
+        return self.prerequisites.split(',')
 
     def save(self, *args, **kwargs):
         if not self.slug:

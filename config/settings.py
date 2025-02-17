@@ -139,9 +139,8 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',  # Standart autentifikatsiya backend
 ]
 
-
 AUTH_USER_MODEL = 'users.CustomUser'
 
-LOGIN_URL = 'users:login'
 LOGIN_REDIRECT_URL = 'home'
-LOGOUT_REDIRECT_URL = 'users:logout_success'
+LOGIN_URL = '/users/login/'
+LOGOUT_REDIRECT_URL = 'users:login'

@@ -1,10 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-</body>
-</html>
+{% block title %}Confirm Deletion - Subject{% endblock %}
+
+{% block content %}
+<main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 p-8">
+    <div class="max-w-4xl mx-auto">
+        <div class="bg-white rounded-lg shadow-sm p-6">
+            <h2 class="text-lg font-semibold mb-4">Are you sure you want to delete this subject?</h2>
+            <p class="text-gray-900 mb-6">Subject: {{ subject.name }}</p>
+
+            <div class="flex justify-between space-x-4">
+                <!-- Confirm Deletion Button -->
+                <form method="post" action="{% url 'subjects:delete' subject.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">
+                        <i class="bi bi-trash"></i> Confirm Deletion
+                    </button>
+                </form>
+
+                <!-- Cancel Button -->
+                <a href="{{ subject.get_detail_url }}" class="px-4 py-2 border rounded-lg hover:bg-gray-50">
+                    <i class="bi bi-x-circle"></i> Cancel
+                </a>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
