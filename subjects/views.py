@@ -4,7 +4,7 @@ from django.views.generic import ListView, CreateView, DetailView, UpdateView, D
 from django.urls import reverse_lazy
 from departments.models import Department
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponseRedirect
+
 
 
 
@@ -70,7 +70,7 @@ class SubjectDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['teachers'] = self.object.teachers.all()  # Assuming there is a Many-to-Many relationship
+        context['teachers'] = self.object.teachers.all()
         return context
 
 

@@ -2,7 +2,6 @@ from django.db import models
 from groups.base_model import BaseModel
 from django.utils.text import slugify
 from teachers.models import Teacher
-from subjects.models import Subject
 from django.urls import reverse
 
 

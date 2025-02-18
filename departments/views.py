@@ -20,29 +20,29 @@ class DashboardView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
 
-        # Fetch all necessary data
+
         total_students = Student.objects.filter(
-            status='active').count()  # Ensure this matches the status in the database
+            status='active').count()
         total_teachers = Teacher.objects.filter(status='active').count()
         total_groups = Group.objects.filter(status='active').count()
         total_subjects = Subject.objects.all().count()
 
-        # Fetch teachers, groups, subjects, etc.
+
         ctx['teachers'] = Teacher.objects.all()
         ctx['groups'] = Group.objects.all()
         ctx['subjects'] = Subject.objects.all()
-        ctx['total_students'] = total_students  # Ensure this value is correct
+        ctx['total_students'] = total_students
         ctx['total_teachers'] = total_teachers
         ctx['total_groups'] = total_groups
         ctx['total_subjects'] = total_subjects
 
-        # Subject-related data for the chart
+
         ctx['subject_names'] = [subject.name for subject in Subject.objects.all()]
         ctx['subject_teachers_counts'] = [subject.teachers.count() for subject in Subject.objects.all()]
 
-        # Student enrollment trends per month
+
         enrollments = (
-            Student.objects.filter(status='active')  # Ensure the status matches here too
+            Student.objects.filter(status='active')
             .annotate(month=ExtractMonth('created_at'))
             .values('month')
             .annotate(count=Count('id'))
@@ -67,21 +67,21 @@ class DepartmentListView(LoginRequiredMixin,ListView):
     def get_queryset(self):
         departments = Department.objects.all()
 
-        # Fetch filter criteria from GET parameters
+
         head_of_department_filter = self.request.GET.get('head_of_department')
         status = self.request.GET.get('status')
         search_query = self.request.GET.get('search')
 
-        # Filter by head_of_department if provided
+
         if head_of_department_filter:
             departments = departments.filter(head_of_department_id=head_of_department_filter)
 
 
-        # Filter by status
+
         if status:
             departments = departments.filter(status=status)
 
-        # Filter by department name (search query)
+
         if search_query:
             departments = departments.filter(name__icontains=search_query)
 
@@ -90,7 +90,7 @@ class DepartmentListView(LoginRequiredMixin,ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        # Fetch all teachers for head_of_department filtering
+
         context['heads_of_department'] = Teacher.objects.all()
 
         return context
@@ -104,7 +104,6 @@ class DepartmentCreateView(CreateView):
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        # Ensure that active teachers are used in the form field
         kwargs['initial'] = {'head_of_department': Teacher.objects.filter(status='active')}
         return kwargs
 

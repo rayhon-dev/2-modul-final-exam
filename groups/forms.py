@@ -51,6 +51,6 @@ class GroupForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # head_of_department maydonini Teacher modelidan faqat faol o'qituvchilar bilan to'ldirish
+
         self.fields['class_teacher'].queryset = Teacher.objects.filter(status='active')
 

@@ -25,7 +25,7 @@ class SubjectForm(forms.ModelForm):
 
     def clean_prerequisites(self):
         prerequisites = self.cleaned_data.get('prerequisites')
-        # Join the selected prerequisites into a comma-separated string
+
         return ",".join(prerequisites)
 
 

@@ -36,13 +36,7 @@ class Teacher(BaseModel):
     def get_full_name(self):
         return f"{self.first_name} {self.last_name}"
 
-    # @property
-    # def group_count(self):
-    #     return self.groups.count()
 
-    # @property
-    # def student_count(self):
-    #     return self.students.count()
 
     @property
     def subject_names(self):
